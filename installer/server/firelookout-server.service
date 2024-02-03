@@ -1,0 +1,13 @@
+[Unit]
+Description=SecureAccess™ FireLookout Server
+After=network.target
+
+[Service]
+User=root
+Group=root
+WorkingDirectory=/opt/SecureAccess/FireLookout/server
+ExecStart=/opt/SecureAccess/FireLookout/server/FLS
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,19 @@
+{
+  "name": "FireLookoutServer",
+  "version": "1.0.50",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "bun run --watch src/index.ts"
+  },
+  "dependencies": {
+    "@elysiajs/static": "^0.8.1",
+    "elysia": "latest",
+    "elysia-ip": "^0.0.7",
+    "minimist": "^1.2.8",
+    "toolbx": "^1.0.4"
+  },
+  "devDependencies": {
+    "bun-types": "latest"
+  },
+  "module": "src/index.js"
+}

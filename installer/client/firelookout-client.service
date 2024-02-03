@@ -1,0 +1,13 @@
+[Unit]
+Description=SecureAccess™ FireLookout Client
+After=network.target
+
+[Service]
+User=root
+Group=root
+WorkingDirectory=/opt/SecureAccess/FireLookout/client
+ExecStart=/opt/SecureAccess/FireLookout/client/FLC -h <Websocket URL to Server> -n <servername here> -k <server key here>
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
