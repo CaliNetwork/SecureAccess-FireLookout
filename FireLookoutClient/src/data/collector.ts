@@ -44,7 +44,7 @@ export const dataCollector = async () => {
 
     let totalSize = 0;
     let usedSize = 0;
-    const skipFS: Array<string> = ['rootfs', 'unionfs', 'squashfs', 'cramfs', 'initrd', 'initramfs', 'devtmpfs', 'tmpfs', 'udev', 'devfs', 'specfs', 'type', 'appimaged'];
+    const skipFS: Array<string> = ['rootfs', 'unionfs', 'squashfs', 'cramfs', 'initrd', 'initramfs', 'devtmpfs', 'tmpfs', 'udev', 'devfs', 'specfs', 'type', 'appimaged', 'overlay', 'none'];
     for (const fs of fsData) {
         if (!skipFS.includes(fs.filesystem)) {
             totalSize += fs.size;
