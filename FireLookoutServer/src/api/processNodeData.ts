@@ -1,4 +1,5 @@
 import toolbx from "toolbx";
+import type { nodeData } from "../utils/type";
 
 const timeouts: { [servername: string]: NodeJS.Timeout } = {};
 
@@ -11,7 +12,6 @@ export const processNodeData = (nodeData: any, newData: any, servername: string,
     let result: any = {
         success: false
     };
-    let token: any = {};
     if (conf[servername]) {
         if (conf[servername].key == key) {
             if (timeouts[servername]) {
@@ -28,9 +28,14 @@ export const processNodeData = (nodeData: any, newData: any, servername: string,
                     }
                 }, 3000);
             }
-            nodeData[servername] = newData
-            result.success = true;
-            nodeData[servername].status = true;
+            if (newData as nodeData) {
+                nodeData[servername] = newData
+                result.success = true;
+                nodeData[servername].status = true;
+            } else {
+                result.success = false;
+                result.reason = 'Backend is reporting invalid data';
+            }
         } else {
             result.success = false;
             result.reason = 'Wrong key';

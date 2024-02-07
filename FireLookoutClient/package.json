@@ -9,8 +9,8 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
+    "fetchsys": "^1.0.0",
     "minimist": "^1.2.8",
-    "systeminformation": "^5.21.24",
     "toolbx": "^1.0.4"
   }
 }

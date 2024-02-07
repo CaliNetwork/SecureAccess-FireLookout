@@ -10,7 +10,7 @@ import { TOML } from "bun";
 let main: any = {};
 let nodeData: any = {};
 main.args = require('minimist')(Bun.argv.slice(2));
-main.version = 'California@1.0.0-OSS';
+main.version = 'JadeCipher@1.0.0-OSS';
 main.debug = main.args.v || main.args.verbose || false;
 main.listen = main.args.l || main.args.listen || '0.0.0.0';
 main.port = main.args.p || main.args.port || 8271;

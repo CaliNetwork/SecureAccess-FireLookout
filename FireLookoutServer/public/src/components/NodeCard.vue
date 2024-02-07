@@ -16,13 +16,7 @@ const props = defineProps({
         <div class="grid">
             <div class="s6">
                 <i>ac_unit</i>
-                <p v-if="nodeData[node].cpu.speedMax !== null && nodeData[node].cpu.speedMax !== undefined">CPU: {{
-                    nodeData[node].cpu.usage }}% ({{
-        nodeData[node].cpu.cores }}@{{
-        nodeData[node].cpu.speedMax
-    }}Ghz)</p>
-                <p v-if="nodeData[node].cpu.speedMax === null">CPU: {{ nodeData[node].cpu.usage }}% ({{
-                    nodeData[node].cpu.cores }} cores)</p>
+                <p>CPU: {{ nodeData[node].cpu.usage }}% ({{ nodeData[node].cpu.cores }} cores)</p>
                 <progress max="100" :value="nodeData[node].cpu.usage"></progress>
                 <i>memory</i>
                 <p>Memory: {{ hread(nodeData[node].mem.used) }} / {{ hread(nodeData[node].mem.total) }}</p>

@@ -1,61 +1,52 @@
 import os from 'os';
-import { currentLoad, cpu, networkStats, fsSize, osInfo, mem } from "systeminformation"
-import { main } from '../index'
+import Stat from 'fetchsys';
+import { main } from '../index.ts'
 import toolbx from 'toolbx';
 
 export const dataCollector = async () => {
     let nodeData: any = {};
     nodeData.loadavg = os.loadavg();
     nodeData.uptime = os.uptime();
-    nodeData.platform = os.platform();
     const [
         cpuData,
-        currentLoadData,
         memData,
-        osInfoData,
         networkStatsData,
-        fsSizeData,
+        fsData,
+        osData
     ] = await Promise.all([
-        cpu(),
-        currentLoad(),
-        mem(),
-        osInfo(),
-        networkStats(),
-        fsSize(),
+        Stat.cpu(),
+        Stat.mem(),
+        Stat.net(),
+        Stat.fs(),
+        Stat.os()
     ]);
 
     nodeData.cpu = {
         cores: cpuData.cores,
-        speedMax: cpuData.speedMax,
-        speedMin: cpuData.speedMin,
-        usage: Math.round(currentLoadData.currentLoad),
+        usage: Math.round(cpuData.usage)
     };
     nodeData.mem = {
-        used: memData.active,
+        used: memData.used,
         total: memData.total,
         swap: {
-            used: memData.swapused,
-            total: memData.swaptotal,
+            used: memData.swap.used,
+            total: memData.swap.total
         },
     };
-    nodeData.oslogo = osInfoData.logofile;
     nodeData.network = {
-        rx: networkStatsData[0].rx_bytes,
-        tx: networkStatsData[0].tx_bytes,
-        rx_current: Math.round(networkStatsData[0].rx_sec) || 0,
-        tx_current: Math.round(networkStatsData[0].tx_sec) || 0,
+        rx_current: networkStatsData.rx - main.tmp.net.rx || 0,
+        tx_current: networkStatsData.tx - main.tmp.net.tx || 0,
+        rx: networkStatsData.rx,
+        tx: networkStatsData.tx
     };
+    main.tmp.net.rx = networkStatsData.rx;
+    main.tmp.net.tx = networkStatsData.tx;
 
     let totalSize = 0;
     let usedSize = 0;
-    for (const fs of fsSizeData) {
-        if (
-            fs.type !== 'udev' &&
-            fs.type !== 'tmpfs' &&
-            fs.type !== 'overlay' &&
-            fs.type !== 'devtmpfs' &&
-            fs.type !== 'efivarfs'
-        ) {
+    const skipFS: Array<string> = ['rootfs', 'unionfs', 'squashfs', 'cramfs', 'initrd', 'initramfs', 'devtmpfs', 'tmpfs', 'udev', 'devfs', 'specfs', 'type', 'appimaged'];
+    for (const fs of fsData) {
+        if (!skipFS.includes(fs.filesystem)) {
             totalSize += fs.size;
             usedSize += fs.used;
         }
@@ -65,6 +56,7 @@ export const dataCollector = async () => {
         used: usedSize,
     };
 
+    nodeData.os = osData
 
     if (main.debug) toolbx.logger(`Pushing with following data ${JSON.stringify(nodeData)}`, 4);
 
