@@ -1,5 +1,6 @@
 import toolbx from "toolbx";
 import type { nodeData } from "../utils/type";
+import { main } from "../index";
 
 const timeouts: { [servername: string]: NodeJS.Timeout } = {};
 
@@ -45,7 +46,9 @@ export const processNodeData = (nodeData: any, newData: any, servername: string,
         result.reason = 'Node does not exist';
     }
     if (result.success) {
-        toolbx.logger(`[processNodeData] <${time}> [ PASS  ] Data updated for node: ${servername} from ${ip}`, 4)
+        if (main.debug) {
+            toolbx.logger(`[processNodeData] <${time}> [ PASS  ] Data updated for node: ${servername} from ${ip}`, 4)
+        }
     } else {
         toolbx.logger(`[processNodeData] <${time}> [BLOCKED] node: ${servername} blocked from ${ip}, reason: ${result.reason}`, 4)
     }

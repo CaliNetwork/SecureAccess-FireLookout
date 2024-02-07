@@ -7,7 +7,7 @@ import { processNodeData } from "./api/processNodeData";
 import { TOML } from "bun";
 
 
-let main: any = {};
+export let main: any = {};
 let nodeData: any = {};
 main.args = require('minimist')(Bun.argv.slice(2));
 main.version = 'JadeCipher@1.0.0-OSS';
