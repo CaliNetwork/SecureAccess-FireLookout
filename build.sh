@@ -3,8 +3,8 @@ rm -rf installer/server/dashboard
 
 cd FireLookoutServer/public
 
-# comment this to avoid building frontend
-bun install && bun run build && mv dist ../../installer/server/dashboard
+# uncomment this to build frontend
+# bun install && bun run build && mv dist ../../installer/server/dashboard
 
 cd ..
 
