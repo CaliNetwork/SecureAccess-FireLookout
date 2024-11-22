@@ -1,3 +1,8 @@
+
+**Please use Artemis Server Monitor instead**
+
+**https://github.com/kwaitsing/Artemis**
+
 # SecureAccess™ FireLookout Server
 
 SecureAccess™ FireLookout is a tool that can help you monitor server status.
